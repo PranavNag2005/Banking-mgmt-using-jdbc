@@ -15,10 +15,11 @@ public class mains {
             System.out.println("3. Exit");
             System.out.print("Choose an option: ");
             int choice = sc.nextInt();
+            
 
             switch (choice) {
                 case 1: // Register User
-                    sc.nextLine();  // Consume newline
+                     // Consume newline
                     System.out.print("Enter name: ");
                     String name = sc.nextLine();
                     System.out.print("Enter password: ");
@@ -41,9 +42,39 @@ public class mains {
                         System.out.println("1. Withdrawal");
                         System.out.println("2. Deposit");
                         System.out.println("3. Transfer");
+                        System.out.println("4. CheckBalance");
+                        System.out.println("5. Logout");
                         System.out.print("Choose an option: ");
                         int choices = sc.nextInt();
-                        
+                        sc.nextLine();
+                        switch(choices){
+                            case 1:
+                            System.out.print("Enter account number ");
+                            String accountnumber=sc.nextLine();
+                            sc.nextLine();
+                            System.out.print("enter the amount to be withdrawn : ");
+                            double amount=sc.nextDouble();
+                            // sc.nextLine();
+                            operations.withdrawal(accountnumber,amount);
+                            break;
+                            case 2:
+                            System.out.print("Enter the account number ");
+                            String accountno=sc.nextLine();
+                            
+                            System.out.println("Enter the amount to  be deposited ");
+                            double amountd=sc.nextDouble();
+                            sc.nextLine();
+                            operations.Deposit(accountno,amountd);
+                            break;
+                            case 4:
+                            System.out.println("enter the account number ");
+                            String acc=sc.nextLine();
+                            operations.checkbalance(acc);
+                            break;
+                            case 5:
+                            System.out.println("Thankyou please visit again");
+                            break;
+                        }
                     } else {
                         System.out.println("Invalid credentials. Try again.");
                     }

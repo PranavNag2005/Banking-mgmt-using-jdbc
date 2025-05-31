@@ -38,7 +38,12 @@ public class mains {
                     int userId = user.login(loginName, loginPass);
                     if (userId != -1) {
                         System.out.println("Login successful! Welcome, " + loginName);
-                        // performBankingOperations(sc, userId, bankService);
+                        System.out.println("1. Withdrawal");
+                        System.out.println("2. Deposit");
+                        System.out.println("3. Transfer");
+                        System.out.print("Choose an option: ");
+                        int choices = sc.nextInt();
+                        
                     } else {
                         System.out.println("Invalid credentials. Try again.");
                     }

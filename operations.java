@@ -16,7 +16,7 @@ public class operations {
                         ptm.setDouble(1, amount);
                         ptm.setString(2, accountnumber);
                         ptm.executeUpdate();
-                        
+                        System.out.println("with draw successfull");
                         
                     }
                     conn.commit();
@@ -77,9 +77,51 @@ public class operations {
         }
        
     }
-     public static void transfer(String Ano,double amountss){
-            
+   public static void transferMoney(String senderAccount, String receiverAccount, double amount) {
+    String checkBalance = "SELECT balance FROM accounts WHERE accountnumber = ?";
+    String withdrawQuery = "UPDATE accounts SET balance = balance - ? WHERE accountnumber = ?";
+    String depositQuery = "UPDATE accounts SET balance = balance + ? WHERE accountnumber = ?";
+
+    try {
+        conn.setAutoCommit(false); // Start transaction
+        
+        // Check sender balance
+        try (PreparedStatement checkStmt = conn.prepareStatement(checkBalance)) {
+            checkStmt.setString(1, senderAccount);
+            ResultSet rs = checkStmt.executeQuery();
+            if (rs.next() && rs.getDouble("balance") >= amount) {
+                
+                // Withdraw from sender
+                try (PreparedStatement withdrawStmt = conn.prepareStatement(withdrawQuery)) {
+                    withdrawStmt.setDouble(1, amount);
+                    withdrawStmt.setString(2, senderAccount);
+                    withdrawStmt.executeUpdate();
+                }
+                
+                // Deposit into receiver
+                try (PreparedStatement depositStmt = conn.prepareStatement(depositQuery)) {
+                    depositStmt.setDouble(1, amount);
+                    depositStmt.setString(2, receiverAccount);
+                    depositStmt.executeUpdate();
+                }
+
+                conn.commit(); // Commit if both steps succeed
+                System.out.println("Transfer successful!");
+                
+            } else {
+                System.out.println("Insufficient balance.");
+                conn.rollback(); // Rollback if balance is insufficient
+            }
         }
+    } catch (SQLException e) {
+        try {
+            conn.rollback(); // Rollback on error
+        } catch (SQLException rollbackEx) {
+            rollbackEx.printStackTrace();
+        }
+        e.printStackTrace();
+    }
+}
     
 
 }

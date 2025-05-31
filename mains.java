@@ -39,6 +39,9 @@ public class mains {
                     int userId = user.login(loginName, loginPass);
                     if (userId != -1) {
                         System.out.println("Login successful! Welcome, " + loginName);
+                        while (true) {
+                            
+                        
                         System.out.println("1. Withdrawal");
                         System.out.println("2. Deposit");
                         System.out.println("3. Transfer");
@@ -74,17 +77,29 @@ public class mains {
                             case 5:
                             System.out.println("Thankyou please visit again");
                             break;
+                            case 3:
+                            System.out.println("Enter the sender account number");
+                            String sender_no=sc.nextLine();
+                            System.out.print("enter the receiver accout number ");
+                            String rec_no=sc.nextLine();
+                            System.out.println("Enter the amount to send ");
+
+                            double amounts=sc.nextDouble();
+                            operations.transferMoney(sender_no, rec_no, amounts);
                         }
-                    } else {
+                
+
+                    } }
+                    else {
                         System.out.println("Invalid credentials. Try again.");
                     }
                     break;
 
-                // case 3:
-                //     System.out.println("Thank you for using our banking system!");
-                //     sc.close();
-                //     System.exit(0);
-                //     break;
+                case 3:
+                    System.out.println("Thank you for using our banking system!");
+                    sc.close();
+                    System.exit(0);
+                    break;
 
                 default:
                     System.out.println("Invalid choice! Please try again.");
